@@ -17,8 +17,8 @@ end
 
 get '/contender/:name' do
   @contender = params[:name]
-  @command = "cloc.pl -no3 --quiet contenders/#{@contender} --report-file=public/results/#{@contender}"
-  @stats = `#{@command}` if !File.exist?("public/results/#{@contender}")
+  @command = "./bin/cloc.pl -no3 --quiet contenders/#{@contender} --report-file=public/results/#{@contender}.txt"
+  @stats = `#{@command}` if !File.exist?("public/results/#{@contender}.txt")
   erb :contender
 end
 
