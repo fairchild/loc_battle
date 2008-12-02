@@ -1,4 +1,5 @@
 require 'rubygems'
+$:.unshift File.dirname(__FILE__) + '/vendor/sinatra/lib'
 require 'sinatra'
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/vendor/'
@@ -11,14 +12,17 @@ end
 ### Public
 
 get '/' do
-  @contenders = Dir.entries('contenders')
+  @contenders = (Dir.entries('contenders')) - ['.','..','.gitignore']
   erb :contenders
 end
 
 get '/contender/:name' do
   @contender = params[:name]
   @command = "./bin/cloc.pl -no3 --quiet contenders/#{@contender} --report-file=public/results/#{@contender}.txt"
-  @stats = `#{@command}` if !File.exist?("public/results/#{@contender}.txt")
+  if !File.exist?("public/results/#{@contender}.txt")
+    `#{@command}`
+  end
+    @stats = File.read(SINATRA_ROOT+"/public/results/#{@contender}.txt") rescue 'Unable to read stats'
   erb :contender
 end
 
