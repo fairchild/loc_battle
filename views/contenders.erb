@@ -1,0 +1,7 @@
+<h1>Meet The Contenders!</h1>
+
+<ul>
+  <% @contenders.each do |contender| %>
+    <li><a href="/contender/<%= contender %>"><%= contender %></a></li>
+  <% end %>
+</ul>
