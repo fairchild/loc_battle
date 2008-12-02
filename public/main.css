@@ -1,3 +1,18 @@
+table.contenders td, table.contenders th{
+  border-right:1px solid gray;
+  padding:2px;
+  
+}
+table.contenders th{
+  border-bottom:3px solid gray;
+  padding:4px;
+  
+}
+table.contenders{
+  padding:4px;
+}
+
+
 body {
   margin: 0px;
   padding: 20px;

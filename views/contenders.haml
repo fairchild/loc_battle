@@ -1,0 +1,21 @@
+%h1 Meet The Contenders!
+
+%table{:class=>'contenders', :cellspacing=>0}
+  %%tr
+    %th name
+    %th Line of Code
+    %th Lines of Comments
+    %th Lines of Code Without Tests
+  - @contenders.each do |contender|
+    %tr
+      %td= "<a href='/contender/#{contender}'>#{contender.to_s}</a>"
+      %td{:class=>'loc'}
+        - if Contender.cloc(contender.to_s) 
+          = "#{Contender.cloc(contender.to_s).loc}" 
+      %td
+        = "#{Contender.cloc(contender.to_s).comments}" 
+      %td{:class=>'wot_loc'}
+        = Contender.cloc_no_test(contender.to_s)['Ruby']["code"]
+%br
+%div
+  %img{:src=>"images/I_coulda_been_a_contender.jpg"}
