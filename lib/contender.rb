@@ -30,8 +30,9 @@ class Contender < Sequel::Model
     end
   end
 
-  def yaml_load
-    YAML::load_file(CONTENDERS_DIR+'/'+name+".yaml") # if File.exist?(filename)
+  def yaml_load(filename=nil)
+    filename = CONTENDERS_DIR+'/'+name+".yaml"  if filename.nil?
+    YAML::load_file(filename) # if File.exist?(filename)
   end
   
   def command_builder(name, format='txt', save_as=nil, extra=nil)
@@ -64,17 +65,27 @@ class Contender < Sequel::Model
     YAML::load(yaml_loc_report) if yaml_loc_report
   end
   
+  def cloc_no_tests
+    cloc_excluding_tests if yaml_loc_report_excluding_tests.nil?
+    YAML::load(yaml_loc_report_excluding_tests) if yaml_loc_report
+  end
+  
+  def locet
+    cloc_no_tests['Ruby']['code']
+  end
+  
   def cloc_excluding_tests
     # if !read_file(name+'.txt')CONTENDERS_DIR+'/'+name+".yaml"
     #   command = "./bin/cloc.pl -no3 --quiet --exclude-dir=test,spec,.git,.svn contenders/#{name} --report-file=public/results/#{name}_wo_tests.txt"
     #   raise 'could not generate output file' if !system(command)
     # end
-   
-    if !read_file(name+'.yaml')
-      command = "./bin/cloc.pl -no3 --quiet --exclude-dir=test,spec,.git,.svn contenders/#{name} --report-file=public/results/#{name}_wo_tests.yaml --yaml"
-      raise 'could not generate output file' if !system(command)
-    end
-    yaml_load("#{name}_wo_tests")
+    
+    command = "./bin/cloc.pl -no3 --quiet --exclude-dir=test,spec,.git,.svn contenders/#{name} --report-file=public/results/#{name}_wo_tests.yaml --yaml"
+    puts command
+    output = `#{command}`
+    puts "\ncloc outout:\n#{output}"
+    raise "could not generate yaml output file:\n #{output}\n---" unless $?.exitstatus==0 
+    self.yaml_loc_report_excluding_tests  = File.read("public/results/#{name}_wo_tests.yaml")    
   end
   
   def cloced?

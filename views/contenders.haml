@@ -11,7 +11,7 @@
       %td{:class=>'loc'}
         = "#{contender.loc}" 
       %td{:class=>'wot_loc'}
-        =# contender.cloc_no_test(contender.to_s)['Ruby']["code"] rescue '-'
+        = contender.locet 
         %script{ 'type' => "text/" + "javascript"}
           ="data=#{contender.yaml_loc_report}"
 %br
