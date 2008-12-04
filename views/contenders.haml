@@ -4,18 +4,19 @@
   %%tr
     %th name
     %th Line of Code
-    %th Lines of Comments
-    %th Lines of Code Without Tests
+    %th Exluding Tests
   - @contenders.each do |contender|
     %tr
-      %td= "<a href='/contender/#{contender}'>#{contender.to_s}</a>"
+      %td= "<a href='/contender/#{contender.name}'>#{contender.name}</a>"
       %td{:class=>'loc'}
-        - if Contender.cloc(contender.to_s) 
-          = "#{Contender.cloc(contender.to_s).loc}" 
-      %td
-        = "#{Contender.cloc(contender.to_s).comments}" 
+        = "<pre>#{contender.inspect} </pre>" 
       %td{:class=>'wot_loc'}
-        = Contender.cloc_no_test(contender.to_s)['Ruby']["code"]
+        =# contender.cloc_no_test(contender.to_s)['Ruby']["code"] rescue '-'
+        %script{ 'type' => "text/" + "javascript"}
+          ="data=#{contender.yaml_loc_report}"
 %br
 %div
   %img{:src=>"images/I_coulda_been_a_contender.jpg"}
+  
+%script{ 'type' => "text/" + "javascript"}
+  ="data=#{@contenders.first}"
