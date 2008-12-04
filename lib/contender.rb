@@ -56,9 +56,12 @@ class Contender < Sequel::Model
     # self.lines_of_ruby = cloc_results['Ruby']['code'] if (cloc_results and cloc_results['Ruby'])
   end
   
+  def loc
+    cloc_results['Ruby']['code']
+  end
+  
   def cloc_results
     YAML::load(yaml_loc_report) if yaml_loc_report
-    
   end
   
   def cloc_excluding_tests

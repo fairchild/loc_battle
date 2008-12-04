@@ -1,15 +1,24 @@
 <h2><%= @contender %></h2>
 <p>
   <h4><%= @command %></h4>
-  <pre>
-    <%= @contender.cloc_results.to_json %>
-    <%# @contender.read_file(@contender+".txt") %>
-  </pre>
-</p>
 
-<p>
-  <h4>Excluding tests</h4>
-  <pre>
-    <%# @contender.read_file("#{@contender}_wo_tests.txt") %>
-  </pre>
+  <table border="0" cellspacing="5" cellpadding="5">
+    <tr>
+      <th>Language</th>
+      <th>Code</th>
+      <th>Blank Lines</th>
+      <th>Comments</th>
+      <th>File Count</th>
+    </tr>
+    <% @contender.cloc_results.each do |lang| %>
+      
+      <tr>
+        <td><%= lang[0] %></td>
+        <td><%= lang[1]['code'] %></td>
+        <td><%= lang[1]['comment'] %></td>
+        <td><%= lang[1]['blank'] %></td>
+        <td><%= lang[1]['nFiles'] %></td>
+      </tr>
+    <% end %>
+  </table>
 </p>

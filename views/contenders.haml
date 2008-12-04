@@ -9,7 +9,7 @@
     %tr
       %td= "<a href='/contender/#{contender.name}'>#{contender.name}</a>"
       %td{:class=>'loc'}
-        = "<pre>#{contender.inspect} </pre>" 
+        = "#{contender.loc}" 
       %td{:class=>'wot_loc'}
         =# contender.cloc_no_test(contender.to_s)['Ruby']["code"] rescue '-'
         %script{ 'type' => "text/" + "javascript"}
